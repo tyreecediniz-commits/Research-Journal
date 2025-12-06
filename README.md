@@ -1,8 +1,8 @@
 #Research Journal
-This is my first repository :) At this point, I don't know much about github but i'm learning
+This is my first github repository! :)
+At this point, github is still new to me but I am learning as I go.
 
-##What is going on in this repository?
-It consists of my research/learning notes and files for my research journal.
-I am currently studying quantum information via IBM's online course, while also learning use of their SDK, Qiskit, for running quantum information based code. 
-The aim in this is to build the understanding of quantum systems needed to begin looking into QFT and similar areas. 
-Essentially, while initially broad, the aim in the research journal is primarily to build pre-required knowledge for learning the depths of quantum physics.
+##What is going on here?
+This repo consists of my notes, as I refresh come basic mathematics and key concepts and learn extracurricular topics too. 
+Alongside my univeristy studies, I am studying quantum information via IBM's online course, while also learning how to use their SDK, Qiskit, to run quantum-information based code on python.
+My interests very often splits into different areas of maths and physics, and so the journal is generally meant to help track these interests and the things I learn! However, the overall aim is building the understanding of quantum systems and physics required to delve into deeper areas of the field, specifically QFT and simialr areas. 
