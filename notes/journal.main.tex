@@ -41,7 +41,7 @@
     style=numeric,
     citestyle=numeric
 ]{biblatex}
-\addbibresource{references.bib}
+\addbibresource{misc/references.bib}
 
 \setcounter{tocdepth}{3}
 \setcounter{secnumdepth}{3}
@@ -483,7 +483,7 @@ This is just a 4-equation system, all of which are linear. So the same method of
 This time, the aim is to make the matrix on the left, the identity matrix. Then, the matrix left on the right is the inverse matrix. Again, this method is more commonly used as the standard due its ability to be generalised to any size system. The following example is from \cite{purdy_functions_calculus_2025}:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{7t.png}
+    \includegraphics[width=1\linewidth]{images/row_operations_ss.png}
 \end{figure}
 \newpage\noindent\textbf{Two practice questions:}
 Complete on paper in own time for practice -  both questions are from Dr. Purdy's notes, chapter 19, \cite{purdy_functions_calculus_2025}.
@@ -1062,12 +1062,12 @@ This gives the correct result as,
 Note that isn't really super-important. But it is nice if you care about details and aesthetics. So, displaying example code in LaTeX can be done in several ways. You could create a custom environment using solely LaTeX macros, or, let overleaf  'collaborate' with the coding software directly.  The second option is the one used in this document. \\\\ To do this,  overleaf needs to be compiling the LaTeX source code with one of pdflatex, lualatex or xelatex, so that it can use the minted package. HOWEVER... for overleaf to present the sample code 'aesthetically', it needs to use a python-based program, Pygments - i.e. overleaf needs to access \textit{external} content on your laptop. This is usually automatically blocked for security reasons, and overleaf has made it particularly purposeful and difficult to override, to ensure the user really wants to do so. Overriding this security measure, requires creating another .tex file in your project. Name the file EXACTLY: latexmkrc. Once complete, copy what is in the image below into the new file. 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{image.png}
+    \includegraphics[width=0.9\linewidth]{images/shell_escape_instructions.png}
 \end{figure}
 \noindent These lines are what tell overleaf to allow the pdflatex, xelatex, and lualatex compilers to run external programs. Once you've done this and checked the right compiler is being used (go to settings then compiler; if not one of the aforementioned compilers, click and a drop-down menu will appear - select one of the required compilers \footnote{Recommend pdflatex: keeps document neat and the others tend to mess with image production a bit}), you can define an environment like the following:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{87654.png}
+    \includegraphics[width=1\linewidth]{images/latex_jupyter_enviro.png}
 \end{figure}
 The environment defined in the image, which is the one used in this document, looks complex but really, you can define the environment however you like! This environment specifically ensures the output looks as similar to a JupyterLab cell as possible and includes a title. But you don't \textit{have} to include a title or make it perfect. 
 An example of code output is shown below, as well as in many prior sections of this work. As well as this, below it is the latex code that produced it, as an example of how to use the environment once it's defined.
@@ -1081,7 +1081,7 @@ qc.draw()
 \end{jupyter}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{asdfgh.png}
+    \includegraphics[width=1\linewidth]{images/latex_jupyter-envrio_example.png}
 \end{figure}
 \section{Some Important Properties of Matrices to Note:}
 \begin{enumerate}
