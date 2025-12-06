@@ -1,0 +1,1142 @@
+\documentclass[12pt,a4paper]{article}
+\PassOptionsToPackage{hang,flushmargin}{footmisc}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amssymb, amsthm, bm, cancel}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{physics} 
+\usepackage{float} %needed for image formatting
+\usepackage{wrapfig}
+\usepackage{caption} 
+\usepackage{empheq}
+\usepackage{subfigure}
+\usepackage{subcaption}
+\usepackage[bottom]{footmisc}
+\usepackage{xcolor}
+
+
+
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+    pdfauthor={Your Name},
+    pdftitle={Research Journal},
+}
+
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage[
+    backend=bibtex,
+    sorting=nyt,
+    style=numeric,
+    citestyle=numeric
+]{biblatex}
+\addbibresource{references.bib}
+
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+\usepackage{minted}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{skins, breakable, minted}
+
+\newtcblisting{jupyter}{
+    listing engine=minted,
+    minted language=python,
+    minted options={
+        fontsize=\small,
+        breaklines,
+        autogobble
+    },
+    colback=gray!10,
+    colframe=gray!30,
+    left=6mm,
+    enhanced,
+    overlay={
+        \fill[gray!50] (frame.south west) rectangle ([xshift=6mm]frame.north west);
+    },
+    title=JupyterLab Cell,
+    fonttitle=\bfseries,
+    breakable,
+    listing only
+}
+
+
+
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Research Journal}
+\fancyhead[R]{\leftmark}
+\fancyfoot[C]{\thepage}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
+\begin{document}
+
+\numberwithin{equation}{section} % Makes equation numbering follow section numbering
+\setcounter{section}{0} % Start numbering from (1)
+\newcommand*{\vect}[1]{\mathbf{\underline{#1}}} %vector notation
+\renewcommand{\k}{\mathbf{\underline{\hat{k}}}} % unit vector k
+\renewcommand{\i}{\mathbf{\underline{\hat{i}}}} % unit vector i
+\renewcommand{\j}{\mathbf{\underline{\hat{j}}}} % unit vector j
+\renewcommand{\r}{\mathbf{\underline{\hat{r}}}} % unit vector r
+\newcommand{\azimuth}{\mathbf{\underline{\hat{\theta}}}} % unit vector theta (azimuthal angle)
+\newcommand{\tf}{\therefore}
+\newcommand{\Imp}{\Longrightarrow} %implies 
+\newcommand{\imp}{\Rightarrow}
+\newcommand*{\proven}{\[\text{Q.E.D.} \quad \blacksquare\]} %conclusion of proof
+\newcommand*{\dg}{^{\circ}} %degrees
+\providecommand*{\Nset}{\mathbb{N}}            % Naturals
+\providecommand*{\Zset}{\mathbb{Z}}            % Integers
+\providecommand*{\Qset}{\mathbb{Q}}            % Rationals
+\newcommand{\Cset}{\mathbb{C}}                 % Complex numbers
+\providecommand*{\nonnegQset}{\mathbb{Q}_{\scriptscriptstyle{+}}}
+%Non-negative rationals
+\providecommand*{\Rset}{\mathbb{R}}            % Reals
+\providecommand*{\nonnegRset}{\mathbb{R}_{\scriptscriptstyle{+}}}
+\newcommand{\Bin}[3]{{#1}\sim\text{B}({#2},{#3})} %binomial dist.
+\newcommand*{\vparallel}[2]{\vect{#1} \parallel \vect{#2}} % parallel (vector) symbol
+\newcommand*{\uvect}[1]{\hat{\mathbf{\underline{#1}}}} % unit vector notation
+\newcommand{\mean}[1]{\mathbb{E}[#1]}
+\newcommand{\Var}[1]{\mathrm{Var}(#1)}
+% ====== Logic and Set Theory Macros ======
+
+% Quantifiers
+\newcommand*{\all}{\forall}             % "for all"
+\newcommand*{\ex}{\exists}              % "there exists"
+\newcommand*{\nex}{\nexists}            % "there does not exist"
+
+% Logical connectives
+\newcommand*{\AND}{\wedge}              % logical AND
+\newcommand*{\OR}{\vee}                 % logical OR
+\newcommand*{\NOT}{\neg}                % logical NOT
+\newcommand*{\IMP}{\Rightarrow}         % implication
+\newcommand*{\IFF}{\Leftrightarrow}     % if and only if (bi-implication)
+\newcommand*{\NAND}{\uparrow}           % NAND
+\newcommand*{\NOR}{\downarrow}          % NOR
+\newcommand*{\XOR}{\oplus}              % exclusive OR
+
+% Set membership & relations
+\newcommand*{\inset}{\in}               % element of
+\newcommand*{\ninset}{\notin}           % not an element of
+\newcommand*{\subsetp}{\subseteq}       % subset or equal
+\newcommand*{\supsetp}{\supseteq}       % superset or equal
+\newcommand*{\nsubsetp}{\nsubseteq}     % not subset
+\newcommand*{\nsupsetp}{\nsupseteq}     % not superset
+\newcommand*{\setdiff}{\setminus}       % set difference
+\newcommand*{\union}{\cup}              % union
+\newcommand*{\intersect}{\cap}          % intersection
+
+% Relations and equivalence
+\newcommand*{\eqv}{\equiv}              % equivalence
+\newcommand*{\neqv}{\not\equiv}         % not equivalent
+\newcommand*{\defeq}{\coloneqq}         % defined as
+\newcommand*{\suchthat}{\;|\;}          % such that (for set-builder notation)
+
+\begin{titlepage}
+    \centering
+    {\Huge \textbf{Research Journal}}\\[1.5cm]
+    {\Large Quantum Physics}\\[2cm]
+    {\large \textit{Author: Tyreece J. D.M}}\\[0.2cm]
+    \vfill
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\subsection{Structure}
+Below is the planned progression route, building up to Quantum Field Theory. There are suggested sources of learning included.
+\subsubsection{A) The Prerequisites}
+\begin{enumerate}
+    \item Classical Mechanics - Lagrangians \& Hamiltonians
+    \subitem \textit{Classical Mechanics}, J.R. Taylor
+    \subitem \textit{Sean Carroll Lecture notes}, freely available online\\
+    \item Partial Derivatives \& Multivariable Calculus - including understanding and confident use of $\nabla$ operator 
+    \subsubitem \textit{Math. Methods for Physicists and Engineers}, Riley et. al.
+    \subsubitem Good youtube videos explain the concepts well
+    \item Brush up on Matrices (Eigen-values/vectors, row operations, inverses, matrix algebra etc.)
+    \subitem \textit{Math. Methods for Physicists and Engineers}, Riley et. al.
+    \subitem \textit{Further Pure Mathematics}, Gaulter
+    \item Special Relativity 
+    \subitem \textit{Classical Mechanics}, J.R. Taylor
+    \subitem \textit{An Intro. to Modern Astrophysics}, Ostlie et. al.
+    \subitem \textit{Spacetime \& Geometry}, Sean Carroll (first 2 chapters)
+\end{enumerate}
+\subsubsection{B) Quantum Mechanics}
+It's acceptable to interleave learning of this section with the learning of the prior section.
+\begin{enumerate}
+    \item Schrödinger's Equation 
+    \subitem \textit{Intro to QM}, Griffiths (chapters 1-4)
+    \subitem \textit{A Cavendish Quantum Mechanics Primer}, Cambridge Uni. Press
+    \subitem \textit{IBM Quantum Tutorials}
+\end{enumerate}
+    Note: While this section comprises one learning point, it is a big topic and \textbf{very} important. Ensure confidence with the following before moving beyond this stage:
+    \begin{itemize}
+        \item Wavefunctions
+        \item Operators
+        \item Commutators
+        \item Harmonic Oscillators
+        \item Momentum + Position operators
+        \item Expectation values
+    \end{itemize}
+\subsubsection{C) Intro to QFT}
+\begin{enumerate}
+    \item QFT Basics - why it exists, what it is
+    \subitem Simple google searches and short papers etc.
+    \item Particle Spin
+    \subitem Google, youtube, etc.
+     \item Lagrangian Formulation of Fields - terms of equation, Klein-Gordon, Euler-Lagrange for fields
+    \subitem \textit{David Tong's QFT lecture notes}, freely available online
+    \item Quantisation of Fields
+    \subitem \textit{David Tong's QFT lecture notes}, freely available online
+    \subitem Youtube series by David Kaplan\\
+    It is of importance that before moving on that there is understanding of fields as operators, basic commutation relations, how scalar fields become a sum of harmonic oscillators, and creation/annihilation operators.
+\end{enumerate}
+\subsubsection{D) More Advanced QFT}
+This stage is likely to be the most difficult and longest thus far. Where sources are not included below, exploration of existing sources and sufficient preparation should be done before continuing.
+\begin{enumerate}
+    \item Dirac Fields
+    \begin{itemize}
+        \item Spinors
+        \item Gamma Matrices
+        \item Dirac Equation
+        \item Quantisation of Fermions
+        \item Pair Production; can use electrons as context
+    \end{itemize}
+    \item Interactions, Feynman Diagrams \& Scattering Theory
+    \subitem Peskin and Schroeder
+\end{enumerate}
+\section{The Prerequisites}   
+\subsection{Partial Derivatives}
+All notes from this section are made from \cite{riley_mathematical_2019}, chapter 5.
+\subsubsection{$2^{nd}$ Partials}
+\begin{theorem}\label{thm: schwarz_symmetry}
+    \underline{Schwarz's Theorem:} If $f(x,y)$ has second partials that are locally continuous, then the second mixed partials are equivalent: $f_{xy} = f_{yx}$.
+\end{theorem}
+\begin{remark}
+    Continuity happens if, as the function approaches the point where the partials are being evaluated, the function value at the point is the limit; e.g., as $f(x)=2x$ approaches $x=3$, the limit is 6 which is the function value at $x=3$, hence, $f$ is continuous. 
+\end{remark}
+An $n$-variable function has $n^2$ second partials; $n$ pure second partials and $n(n-1)$ mixed second partials. For example, take a continuous 2-variable function, $f(x,y)$. 
+\[\mathrm{Pure~second~partials}:~~\pdv{f}{x}\left(\pdv{f}{x}\right) = f_{xx}~,~~~\pdv{f}{y}\left(\pdv{f}{y}\right) = f_{yy}\]
+\[\mathrm{Mixed~second~partials:}~~\pdv{f}{x}\left(\pdv{f}{y}\right)= f_{xy}~,~~~\pdv{f}{y}\left(\pdv{f}{x}\right) = f_{yx}\]
+Here, $n=2$, and the number of second partials is $n^2=2^2=4$, with 2 pure, 2 mixed. By Theorem ~\ref{thm: schwarz_symmetry}, $f_{xy} = f_{yx}$.
+\subsubsection{Nature of Stationary Points}
+The \textbf{Hessian Determinant} is used to determine the nature of a stationary point on a multi-variable function.
+\begin{definition}
+    The Hessian Determinant is defined as 
+    \[D = \begin{vmatrix}
+        f_{xx}&f_{xy}\\f_{yx}&f_{yy}
+    \end{vmatrix} = f_{xx}f_{yy}-f_{xy}^2\]
+\end{definition}
+Note that the $f_{xy}f_{yx}$ term is $f_{xy}^2$; it is good to be aware that this is only true in consideration of Schwarz's theorem. However, in practice, the majority of functions encountered satisfy this.\\
+The case $D<0$ is the simplest; the stationary point is a saddle point\footnote{Remember from Dr.Purdy's notes that saddle points are non-extremum stationary points. They can be thought of inflection points for now.}. However, when $D>0$, the following table shows the outcome.
+\[\begin{tabular}{c|c}
+\centering 
+    $f_{xx} ~\&~f_{yy} > 0 $  &  Maximum \\
+    $f_{xx}~\&~f_{yy} <0$ & Minimum \\
+    $f_{xx}f_{yy} <0$ & Saddle Point
+\end{tabular}\]
+$D=0$ doesn't relay any useful information. \\\\
+Example: Find the stationary point(s) of $f(x,y) = -x^2+xy+y^2+6y$. Determine their nature.
+\begin{itemize}
+    \item Find partial derivatives:
+    \[\pdv{f}{x} = -2x+y\]
+    \[\pdv{f}{y} = x+2y+6\]
+    \item Set \textit{both} to be zero.
+    \[f_x = 0 \rightarrow -2x+y= 0\]
+    \[f_y=0 \rightarrow x+2y =-6\]
+    \[\tf \begin{pmatrix}
+        -2 & 1\\
+        1 & 2
+    \end{pmatrix}\begin{pmatrix}
+        x\\y
+    \end{pmatrix}=\begin{pmatrix}
+        0\\-6
+    \end{pmatrix}\]
+    \[\Rightarrow -\frac{1}{5}\begin{pmatrix}
+        2&-1\\
+        -1&-2
+    \end{pmatrix}\begin{pmatrix}
+        0\\-6
+    \end{pmatrix} = -\frac{1}{5}\begin{pmatrix}
+        6\\12
+    \end{pmatrix}=\begin{pmatrix}
+        x\\y
+    \end{pmatrix}\]
+    \[\tf x = -1.2~\&~y=-2.4\]
+   \item So the stationary point is at $(-1.2,-2.4)$. 
+   \item Now find the second partials.
+   \[f_{xx} = -2,~~f_{yy} = 2,~~f_{xy} = 1\]
+   Therefore, it can already be seen that 
+   \[D = f_{xx}f_{yy}-f_{xy}^2=-5 \]
+   \[D<0\]
+   \item So the stationary point is a saddle point.
+\end{itemize}
+\newpage
+\subsubsection{Total Differentials}
+Consider a small change being made in the arguments of the function $f(x,y)$. This corresponds to a small change in the function, called \textbf{the total differential}:
+\begin{align*}
+    \mathrm{The ~ Total~Differential,~}\Delta f = f(x+\Delta x,~y+\Delta y) - f(x,y)\\[6pt]
+    = \pdv{f}{x}\Delta x+\pdv{f}{y}\Delta y 
+\end{align*}
+This result improves as the change in the arguments tends to 0 \footnote{A more in depth derivation of the total differential can be found in Riley et. al. chapter 5, or Dr. Purdy's course notes, chapter 9.}. Then the total differential is 
+\[\boxed{df = \pdv{f}{x}dx+\pdv{f}{y}dy}\]
+\subsubsection{Total Derivative and The Chain Rule}
+Consider a scenario where the arguments, $x~\&~y $, of a function, $f: \Re^n \mapsto \Re$,  are themselves functions of a 3rd variable, $u$. For example, a sheet whose area is given by $xy$ but $x = 2u,~~ y=5u^2$. 
+\begin{remark}
+    The \textbf{Total Derivative} is an expression encoding how the function changes with respect to all variables at once.
+\end{remark}
+A small change in $u$ corresponds to a small change in $x,~y$ and hence, to a small change in $f$ overall.  Therefore, adding in a dependency on $u$ means simply multiplying across the total differential by $du$.
+\[\boxed{\mathrm{The ~Total~Derivative:}\dv{f}{u} = \pdv{f}{x}\dv{x}{u}+\pdv{f}{y}\dv{y}{u}}\]
+This is also known as the \textit{chain rule for partial differentiation} or \textit{multivariate chain rule}. Going back to the sheet example, the total derivative is worked out below.
+\begin{align*}
+    f(x,y) = xy,~~x=2u~~~y=5u^2\\[4pt]
+    \pdv{f}{x} = y~~~~\pdv{f}{y}=x~~~~\dv{x}{u} = 2~~~~\dv{y}{u} = 10u\\[8pt]
+    \tf \dv{f}{u} = y\cdot2+x\cdot 10u = 2y+10xu\\
+    = 10u^2+20u^2=30u^2.
+\end{align*}
+This example demonstrates the use of the chain rule for a function of two variables, each dependent on one other variable. The chain rule can be extended to a function of many-variables. If we have $f(x_1, x_2, x_3...x_n)$ each dependent on $u$ by $x_i=x_i(u)$, then obtaining the total derivative uses the same principle of multiplying an \textit{extended} total differential by $du$.
+\begin{align*}
+    \dv{f}{u} = \pdv{f}{x_1}\dv{x_1}{u} + ...\pdv{f}{x_n}\dv{x_n}{u}\\[8pt]
+    = \dv{\vect x}{u}\cdot \grad f
+\end{align*}
+where (see section 1.2.3) $\grad f$ is the vector of partials:
+\[\grad f = \begin{pmatrix}
+    f_{x_1}\\f_{x_2}\\...\\...\\f_{x_{n-1}}\\f_{x_n}
+\end{pmatrix}\]
+and $\dv{\vect x}{u}$ is a row vector of the $x_i$ derivatives. \\
+For example, take the function $f(w,x,y,z) = wx^2+2\sqrt{y} - z$. Say, $w = e^{2u}, ~x= u^2,~y=7e^{-u}~\&~z = 1/u^3$:
+\begin{align*}
+    \dv{w}{u} = 2e^{2u}~~~\dv{x}{u} = 2u~~~\dv{y}{u} = -7e^{-u}~~~\dv{z}{u} = -\frac{3}{u^4}\\[8pt]
+    \grad f = \begin{pmatrix}
+        f_w\\f_x\\f_y\\f_z 
+    \end{pmatrix} = \begin{pmatrix}
+        x^2\\[6pt] 2wx\\[6pt]\frac{1}{\sqrt{y}}\\[6pt]-1
+    \end{pmatrix}\\[6pt]
+    \tf \dv{f}{u} = \dv{\vect x}{u}\cdot \grad f =  \left(2e^{2u}~~~2u~~~-7e^{-u}~~~-\frac{3}{u^4}\right)\cdot \begin{pmatrix}
+        x^2\\[6pt] 2wx\\[6pt]\frac{1}{\sqrt{y}}\\[4pt]-1
+    \end{pmatrix}\\[6pt]
+    = (2x^2e^2u)+(4uwx)-(7y^{-0.5}e^{-u})+(3u^{-4})\\[8pt]
+    = 2u^4e^u +4u^3e^{2u}-\frac{1}{49}e^{-\frac{u}{2}}+\frac{3}{u^4}.
+\end{align*}
+So to summarise, the multivariate chain rule is given in vector form and scalar form:
+\[\boxed{\dv{f}{u} = \dv{\vect x}{u}  \cdot\grad f = \sum_{i=1}^n\pdv{f}{x_i}\dv{x_i}{u}}\]
+\subsubsection{Useful Theorems}
+
+\subsubsection{Differentiation of Integrals}
+\subsection{Vector Calculus}
+\subsubsection{Differentiation of Vectors}
+\subsubsection{Integration of Vectors}
+\subsubsection{Vector Operators ($\nabla$)}
+\subsubsection{Gradient of Scalar Fields}
+\subsubsection{Divergence of Vector Fields}
+\subsubsection{Curl of Vector Fields}
+\subsubsection{Combinations of Vector Operators}
+\newpage
+\subsection{Matrices}
+Sections 1.3.3 - 1.3.4 are notes made from \cite{purdy_functions_calculus_2025}, chapters 17 to 19. Refer to \textbf{Appendix C} for notes on some properties of a matrix. 
+\subsubsection{Inverse of 2x2 Matrix}
+The inverse of a 2 x 2 matrix, is arguably one of the simplest to evaluate. The general form for finding it is shown below.
+\begin{align*}
+    \begin{pmatrix}
+        a&b\\c&d
+    \end{pmatrix}^{-1} = \frac{1}{\det (A)}\begin{pmatrix}
+        d&-b\\-c&a
+    \end{pmatrix}
+\end{align*}
+\subsubsection{Inverse of 3x3 Matrix}
+While possible to evaluate via row operations (see next section), 3x3 matrices \textit{do} have a specific formula that can optionally be used to find their inverse\footnote{Really only included for transparency; it is almost always better to use row operations, not least because the method can be generalised to any n x n matrix}:
+\[\mathrm{M^{-1}} = \frac{1}{|\mathrm{M|}}\cdot \mathrm{m^T}\]
+where $\mathrm{m^T}$ is the transposed matrix of minors.\\\\
+\underline{\textbf{Example:}} Find $\mathrm{M^{-1}}$ for $\mathrm{M} = \begin{pmatrix}
+    3&4&2\\
+    -1&-1&5\\
+    2&-4&-1
+\end{pmatrix}$\\\\
+$\det \mathrm{M} = 3\begin{vmatrix}
+    -1&5\\-4&-1
+\end{vmatrix}-4\begin{vmatrix}
+    -1&5\\2&-1
+\end{vmatrix}+2\begin{vmatrix}
+    -1&-1\\2&-4
+\end{vmatrix}$\\\\
+(\textit{Finish later to practice on paper; remember, transpose = switch rows and columns})
+\subsubsection{Gaussian Elimination}
+Matrices can be used to solve systems of simultaneous linear equations:
+\begin{align*}
+    ax+by = C\\
+    dx+ey=K
+\end{align*}
+\begin{align}
+    \Rightarrow \begin{pmatrix}
+    a&b\\d&e
+\end{pmatrix}\begin{pmatrix}
+    x\\y
+\end{pmatrix}=\begin{pmatrix}
+    C\\K
+\end{pmatrix}
+\end{align}
+
+\[\Rightarrow \begin{pmatrix}
+    x\\y
+\end{pmatrix}= \begin{pmatrix}
+    a&b\\d&e
+\end{pmatrix}^{-1}\begin{pmatrix}
+    C\\K
+\end{pmatrix}\]
+This can be generalised further for use in higher dimensional systems of equations; the coefficients of 3 simultaneous equations form the 3 x 3 matrix, the coefficients of 4 simultaneous equations form the 4 x 4 matrix and so on. There is the tendency to solve this system using the inverse however, Gaussian elimination is a much more generalised way of doing so and applicable to nD dimensional systems, where n is real. \\\\
+Matrix representation of a system of simultaneous equations always take the form above. So, ignoring the vector of  variables which the system depends on, all the relevant information can be extracted from the equations and summarised in an \textbf{augmented matrix}\footnote{Ironically, \textit{to augment} is to make more numerous/larger in size, with \textit{augmented} being the adj. describing the thing made larger.}.\\\\ Take equation 1.1; the augmented matrix is composed of just the constants:
+\[\left(
+\begin{array}{cc|c}
+   a  & b & C\\
+    c & d & K
+\end{array}
+\right)\]
+Equation 1.1 comes represents a system of \textit{linearly independent} equation. When this is the case, multiples of the equations can be added or subtracted from one another, or constants can be multiplied across one equation, all while keeping the system's linear independence. Therefore, since the rows of the augmented matrix are the constants of the equations in the system, the same principle applies to them. These operations on the matrix rows, are called \textbf{row operations}.
+
+\begin{definition}
+    Row operations are the allowed transformations we can perform on the rows in a matrix, while maintaining linearity and independence of these rows. The operations are:
+    \begin{enumerate}
+        \item Swap any two rows
+        \item Multiply any row by a (\textit{non-zero}) constant
+        \item Add or subtract multiples of rows to one another 
+    \end{enumerate}
+\end{definition}
+
+Row operations can be applied to an augmented matrix as many times as desired, in any order. One particular use; if the `matrix part' part of the augmented matrix is turned into an identity matrix, then the resulting `vector part' comprises the solutions of the system of equations.
+\newpage
+\textbf{Example:}
+\begin{itemize}
+    \item We have two simultaneous equations,
+    \begin{align*}
+        2x+3y=1\\
+        3x-y=2
+    \end{align*}
+    \item This can be represented by
+\begin{align*}
+    \begin{pmatrix}
+        2&3\\3&-1
+    \end{pmatrix}\begin{pmatrix}
+        x\\y
+    \end{pmatrix}=\begin{pmatrix}
+        1\\2
+    \end{pmatrix}
+\end{align*}
+\item Therefore, the augmented matrix is 
+\begin{align*} \left(
+    \begin{array}{cc|c}
+       2  & 3&1 \\
+        3 &-1&2 
+    \end{array}\right)
+\end{align*}
+\item \textit{Finish the rest on paper for practice}. Choosing the the right sequence of row operations to obtain the identity matrix is not intuitive at first but does get much easier with practice and exposure to these problems.  The final answer looks like
+\begin{align*}
+    \left(\begin{array}{cc|c}
+       1& 0 &\frac{7}{11}  \\[6pt]
+         0& 1&-\frac{1}{11}
+    \end{array}
+    \right)
+\end{align*}
+\item This gives $x = 7/11$ and $y=-1/11$
+\end{itemize}
+
+This process is generalisable to to any size system of equations - it works, as long as the equations are linearly independent. The general process/trick, is to use each row to reduce the complexity of the rows below. That is, use a multiple of the first row to obtain a leading (first entry) zero in the rows below. Then, use a multiple of the second row to obtain two leading zeroes in the rows below and so on.  This process is called \textbf{Gaussian Reduction}, or, Gaussian elimination. The matrix which it results in, is one with a `triangle' of zeroes in the bottom left, and is described as being in \textbf{row-echelon form}. This is useful; once row-echelon form is reached, solving the bottom row equation gives the solution for one of the variables, and back-substituting row-by-row solves the rest of the system. Though, of course you can also just continue on with Gaussian reduction until you've obtained the identity matrix. 
+\subsubsection{Finding Inverses using Row Operations}
+Finding an inverse matrix is simply finding 
+\begin{align*}
+    \begin{pmatrix}
+        x&z\\y&w
+    \end{pmatrix}~~\mathrm{such~that}~~\begin{pmatrix}
+        a&b\\c&d
+    \end{pmatrix}\begin{pmatrix}
+        x&z\\y&w
+    \end{pmatrix}=\begin{pmatrix}
+        1&0\\0&1
+    \end{pmatrix}
+\end{align*}
+This is just a 4-equation system, all of which are linear. So the same method of row operations can be used with the augmented matrix:
+\begin{align*}
+    \left(\begin{array}{cc|cc}
+     a    &b&1&0  \\
+         c&d&0&1 
+    \end{array}\right)
+\end{align*}
+This time, the aim is to make the matrix on the left, the identity matrix. Then, the matrix left on the right is the inverse matrix. Again, this method is more commonly used as the standard due its ability to be generalised to any size system. The following example is from \cite{purdy_functions_calculus_2025}:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{7t.png}
+\end{figure}
+\newpage\noindent\textbf{Two practice questions:}
+Complete on paper in own time for practice -  both questions are from Dr. Purdy's notes, chapter 19, \cite{purdy_functions_calculus_2025}.
+\begin{enumerate}
+    \item Find the inverse of the following matrix using row operations.
+\begin{align*}
+    \begin{pmatrix}
+        2&4&3\\1&-2&-2\\-3&3&2
+    \end{pmatrix}
+\end{align*}
+    \item Use Gaussian reduction to solve the system of equations:
+\begin{align*}
+    3x+4y+2z=3\\
+    -x-y+5z=10\\
+    2x-4y-z=4
+\end{align*}
+\end{enumerate}
+\subsubsection{Eigen-value/vectors \& Characteristic Equations}
+\textit{Notes taken from Chapter 14, Further Pure Mathematics \cite{FPM_Gaulter}}\\
+\begin{definition}
+For a linear operator, $T$, the non-zero vector $\vect v$ is an \textbf{Eigenvector} if,
+\[T\vect v = \lambda \vect v\]
+for some scalar $\lambda$.
+\end{definition}
+Linear operators are linear transformation matrices. Example:
+\[T = \begin{pmatrix}
+    2&1\\1&2
+\end{pmatrix}\]
+The operator $T$ maps the unit vectors of 2D space to the zeroth column and first column of the operator, respectively.  The operator's eigenvectors describe the directions of \textit{invariance}; for example, lines that are do not change under the transformation. The scalar value, $\lambda$, describes the extent to which transformation scales/stretches/flips the invariant directions in space. This is reflected in how the eigenvectors are found.\\\\
+Eigenvalues are typically found first, and then used to identify eigenvectors. The scale factor of a transformation is it's operator's determinant, and since eigenvalues describe the scaling of a invariant lines/points, finding them involves using the determinant. \\
+\textbf{Example:}
+\begin{itemize}
+    \item Take the operator $T$,
+\[T = \begin{pmatrix}
+    1&2&3\\4&5&6\\7&8&9
+\end{pmatrix}\]
+\item . The eigenvalues are such that
+\[T\vect v = \lambda \vect v,~~\lambda\ne0\]
+\item So we have,
+\[\begin{pmatrix}
+    1&2&3\\4&5&6\\7&8&9
+\end{pmatrix}\begin{pmatrix}
+    x\\y\\z
+\end{pmatrix} = \lambda\begin{pmatrix}
+    x\\y\\z
+\end{pmatrix}\]
+\item This gives a system of 3 simultaneous equations, which must have 3 unique solutions for the eigenvalues to be non-zero. Equating all the equations to 0,
+\begin{align*}
+   (1-\lambda) x+2y+3z = 0\\
+    4x+(5-\lambda)y+6z=0\\
+    7x+8y+(9-\lambda)z=0
+\end{align*}
+\item Hence, expressing this form of the equations with a matrix leads to
+\begin{align*}
+    \begin{vmatrix}
+        1-\lambda&2&3\\4&5-\lambda&6\\7&8&9-\lambda
+    \end{vmatrix} = 0
+\end{align*}
+\item This is the same as the determinant of the matrix $T-\lambda I_3$, where $I_3$ is the 3x3 identity matrix. Solving the equation:
+\begin{align*}
+    (1-\lambda)\begin{vmatrix}
+        5-\lambda&6\\8&9-\lambda 
+    \end{vmatrix} - 2\begin{vmatrix}
+        4&6\\7&9-\lambda 
+    \end{vmatrix}+3\begin{vmatrix}
+        4&5-\lambda\\7&8
+    \end{vmatrix}
+\end{align*}
+\item \textit{Continue the above on paper.}  This expression leads to a polynomial of order equal to the size of the square matrix; so in this case, a polynomial with a $\lambda^3$ term. The solutions are the eigenvalues.
+
+\end{itemize}
+The above example clearly shows that eigenvalues are found by solving $\det(T-\lambda I)=0$. This equation is called the matrix's \textbf{characteristic equation.}\\\\
+After obtaining the eigenvalues, finding eigenvectors simply requires solving, for each $\lambda$,
+\[T\begin{pmatrix}
+    x\\y\\z
+\end{pmatrix} = \lambda\begin{pmatrix}
+    x\\y\\z
+\end{pmatrix}\]
+\begin{remark}
+    Note that $\det(M-MI) = 0$. Therefore, \textbf{a matrix satisfies it's own characteristic equation}. If the equation were $\lambda^2 -2\lambda +5=0$, then $M^2-2M+5I = 0$ too, and $M$ is a solution. 
+\end{remark}
+This means that the characteristic equation can be used to find the inverse of a matrix. Consider a matrix with characteristic equation $\lambda^3-6\lambda^2+11\lambda -6=0$. We know that the matrix, $M$, satisfies its own charac. equation. So we have, $M^3-6M^2+11M-6I=0$. Multiplying across by $M^{-1}$, the inverse of M, leads to identifying $M^{-1}$ (being careful to note the order of matrix multiplication, since this is not a commutative operation):
+\begin{align*}
+    M^3-6M^2+11M-6=0\\
+    \Rightarrow M^3M^{-1}-6M^2M^{-1}+11MM^{-1}-6IM^{-1}=0\\
+    \Rightarrow M^2 -6M+11I-6M^{-1}=0\\
+    \tf M^{-1}= \frac{1}{6}M^2-M+\frac{11}{6}I.
+\end{align*}
+
+\subsubsection{Diagonalization and Eigenbasis}
+A matrix is said to be \textit{diagonalizable if an \textbf{Eigenbasis}}  exists. 
+\subsubsection{Orthogonal Matrices}
+\subsubsection{Inner \& Outer Products}
+find sources
+\textit{Chapter 8.12.4 Riley et. al.}
+\subsubsection{Complex and Hermitian Conjugates}
+\textit{Chapter 8.7 Riley et. al.}
+
+
+
+
+
+\newpage
+\subsection{Classical Mechanics}
+\subsubsection{Euler-Lagrange}
+\subsubsection{Hamiltonians}
+\subsection{Special Relativity}
+\newpage
+\section{Quantum Mechanics}
+This entire chapter predominantly consists of notes made from an online quantum information course by IBM, \cite{ibm_quantum_course}.
+\subsection{Single Systems}
+\subsubsection{Classical States}
+\begin{definition}
+    A \textbf{Classical State} is defined as a configuration of a system that can be described with no ambiguity or uncertainty.
+\end{definition}
+Consider a physical system that stores information; $X$. $X$ can take on a finite number of classical states at any given moment. Arbitrarily, let $\Sigma$ = the set of finite classical states that $X$ can have. A few examples:
+\begin{itemize}
+    \item If $X$ is a bit, it can only take on values in the binary alphabet: 0 and 1.
+    \begin{align*}
+        \Sigma =\{0,1\}
+    \end{align*}
+    \item If $X$ is a 6-sided die,
+    \[\Sigma =\{[1,6]\}\]
+    \item If $X$  is a standard electric fan, perhaps
+    \[\Sigma = \{high,medium,low,off\}\]
+\end{itemize}
+\begin{remark}
+    As a general rule, the set of classical states can never be a null set. Note that the system is only useful for storing information if the set of classical states it can have is at minimum, equal to 2. 
+\end{remark}
+Let's say for now that $X$ is a bit; it's equal to one with probability $p_1$ and equal to zero with probability $p_0$. 
+\[P(X=0) = p_0~~~P(X=1)=p_1\]
+This is a \textbf{probabilistic state of $X$}. It is usually represented with a probability vector to keep things succinct:
+\[\begin{pmatrix}
+    p_0\\p_1
+\end{pmatrix}\]
+The entries of a probability vector \textbf{must} be non-negative and real. By the law of total probability, the entries must also sum to 1.\newpage \textit{You can see how to write vectors, matrices and various other notations on python, plus, how to use a quantum-information SDK by IBM (Qiskit), in \textbf{Appendix A}.}\\\\
+The notation for the number of classical states is $|\Sigma|$, and elements from the set are indexed with integers $[1,|\Sigma|]$. When writing the prob. vector for $X$ if it was a bit, notice that the first entry was the prob. associated with 0; this isn't coincidence. Some classical states have a standard ordering system. For bits, it always 0 that is the first entry and then 1. If $X$ was a fan however, there isn't a standard practice for ordering the classical states it could be in. In such situations, an ordering choice can be made arbitrarily, \textbf{\textit{BUT}} ... all that is very important, is that once an ordering system is chosen, it MUST be stuck to!
+\subsubsection{Intro. to Dirac Notation}
+\begin{definition}
+    Basis vectors are vectors with 1 in the entry corresponding to a classical state in a set of finite classical states, and 0 in all other entries. \footnote{Think of unit vectors}
+\end{definition}
+These vectors are denoted $\ket{a}$, where $a\in\Sigma$. This is read as 'ket-a'.
+Examples:
+\begin{itemize}
+    \item $X$ is a bit. Then,
+    \begin{align*}
+        \ket{0} = \begin{pmatrix}
+            1\\0
+        \end{pmatrix}\\
+        \ket{1}=\begin{pmatrix}
+            0\\1
+        \end{pmatrix}
+    \end{align*}
+    \item $X$ is a suit of a deck of cards; clubs, diamonds, spades, hearts. There is no standardised ordering choice here so we make our own. Perhaps, we choose to arrange them alphabetically: clubs, diamonds, hearts \& spades. Then,
+    \begin{align*}
+        \ket{\mathrm{Clubs}} = \begin{pmatrix}
+            1\\0\\0\\0
+        \end{pmatrix}\\[6pt]\ket{\mathrm{Diamonds}} = \begin{pmatrix}
+            0\\1\\0\\0
+        \end{pmatrix}
+    \end{align*}
+    and so on.
+\end{itemize}
+
+$\ket{a}$ are \textbf{basis vectors}. This is of importance because any vector can be written as a unique, linear combination of basis vectors. For example,
+\begin{itemize}
+    \item If $X$ is a bit with probability $p_0 = 0.75$ and $p_1 = 0.25$, then the probabilistic state vector of $X$ can be written as
+    \begin{align*}
+    \begin{pmatrix}
+        0.75\\0.25
+    \end{pmatrix}= 0.75\ket{0}+0.25\ket{1}
+    \end{align*}
+\end{itemize}
+This ket-notation is the first part of \textit{Dirac notation}, used extensively within quantum mechanics but, as seen above, also applicable to classical systems. \\
+\subsubsection{What happens if we measure a system while it is in some probabilistic state?}
+Upon observing a system, obviously, a probability is not observed; a classical state is observed which we can imagine is chosen randomly according to the probabilities. \\
+When observed, the state the system is in becomes absolutely certain. If the system is a fan, and there is a 1/4 chance the fan is on high power, when we observe the fan and see it IS on high power, the probability of this state is now 1. Hence, the new probabilistic state of $X$ is one in which th probability of being in the state of 'high power' is equal to one.\\\\
+\textbf{\textit{Our observation changed the probabilistic state.\footnote{One could object these principles philosophically, but it is ok and useful to think of classical states in this way, to allow the drawing of parallels when looking at quantum states.}}}
+Example: 
+\begin{itemize}
+    \item $X$ is a bit again. It has probabilistic state, like earlier, of
+    \[\frac{3}{4}\ket0+\frac{1}{4}\ket 1\]
+    \item If $X$ is measured, it's akin to a transition taking place; if we measure $X$, then the new probabilistic state becomes EITHER
+    \[\ket{0}~~\mathbf{OR}~~\ket1\]
+\end{itemize}
+Interestingly, the transition in probabilistic state in the example above, only occurs for the observer. For someone who did not measure the state of $X$ when we did, the probabilistic state would not have changed. \\\\
+\subsubsection{Deterministic Operations}
+\begin{remark}
+    Deterministic operations of a classical state, are operations whose output depends on the state the system was in prior to the operation.
+\end{remark}
+In mathematical terms, deterministic operations are described by functions.\\
+Every function $f$ has a unique matrix such that
+\begin{align*}
+    M \ket a =\ket{f(a)}~~~\forall a\in \Sigma
+\end{align*}
+which describes a deterministic operation that transforms the classical state $a$ into f(a), for each $a \in \Sigma$.  \textbf{This matrix has exactly one 1 in each column and 0 for all other entries} -  the reason is explained very shortly.  The \textit{action} of this operation is described by matrix-vector multiplication.  If the vector $v$ describes the probabilistic state of a classical system and we perform the operation described by the matrix $M$ on the system, then the new probabilistic state of the system is $Mv$. \[v \mapsto Mv\]
+Example: Let $X$ be a bit again. \\
+\begin{itemize}
+    \item There can only be four function for the binary alphabet of the form $f: \Sigma\mapsto \Sigma$:
+    \item \begin{align*}
+        f_1(a) = 0\\
+        f_2(a) = a\\
+        f_3(a) = \neg a\\
+        f_4(a) = 1
+    \end{align*}
+    \item The tables below show the input,  $a \in \Sigma$, and output, $f_i(a)$,  for the different functions:
+
+\end{itemize}
+\begin{center}
+    \begin{tabular}{c|c}
+  a       & $f_1(a)$\\
+  \hline
+      0   & 0\\
+      1&0
+    \end{tabular}
+\hfill
+    \begin{tabular}{c|c}
+
+    a     & $f_2(a)$  \\
+    \hline
+         0& 
+    0\\
+ 1&1\\\end{tabular}
+ \hfill
+ \begin{tabular}{c|c}
+      a& $f_3(a)$ \\
+      \hline
+      0& 1\\
+      1&0
+ \end{tabular}
+ \hfill
+ \begin{tabular}{c|c}
+      a&  $f_4(a)$\\
+      \hline
+      0& 
+ 1\\
+ 1&1\\ \end{tabular}
+\end{center}
+The matrices below correspond to these functions; we call these matrices \textbf{Operators}.
+\begin{align*}
+ M_1 =    \begin{pmatrix}
+        1&1\\0&0
+    \end{pmatrix} ~~~~ M_2 = \begin{pmatrix}
+        1&0\\0&1
+    \end{pmatrix}~~~~M_3 = \begin{pmatrix}
+        0&1\\1&0
+    \end{pmatrix}~~~~M_4 = \begin{pmatrix}
+        0&0\\1&1
+    \end{pmatrix}
+\end{align*}
+Finding these matrices is done with the following formula:
+\[M(b,a) = \begin{cases*}
+    1 & if $b =f(a)$\\
+    0 & if $b\ne f(a)$
+\end{cases*} \]
+$M(b,a)$ refers to the entry  in the matrix.
+\begin{remark}
+    With matrices, the indices always go row first, column second. So $M(b,a)$ (read `the b a' entry) refers to the row b, and column a.
+\end{remark}
+ $M(0,0)$ is the entry in the zeroth row, zeroth column - indexing for the rows and columns always begin at zero.  \textbf{Because determinism is characterised by 100\% probability of an output state, deterministic operators have columns with exactly one 1 and all other entries 0.} 
+\\ The matrix entry:
+\[M(b,a)\]
+
+\noindent $a$ = \textit{input} classical state \\
+b = \textit{output} classical state \\
+So, \textbf{column = input, row = output}. \\
+For the first function, when the input classical state is 0. the output is 0; 0 is the zeroth input so the relevant entry in the operator is $M(0,0)$. Using the formula, $f(a)= b$, because, $b=0$   and $a=0$. This meets the 1st condition in the formula and the entry is 1. We can do this for the other entries:
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}\hline
+         Entries Index&   b&a&$f_1(a)$ &$f_1(a) = b?$&Entry Value\\\hline
+         M(0,0)& 
+     0&0& 0& Yes&1\\ \hline
+ M(1,0)& 1& 0& 0& No&0\\\hline
+ M(0,1)& 0& 1& 0& Yes&1\\\hline
+ M(1,1)& 1& 1& 0& No&0\\\hline\end{tabular}
+    \caption{Finding Operator entries for $f_1(a)$
+    }
+    \label{tab:placeholder}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}\hline
+    Entries Index    &  b& a&$f_2(a)$&$f_2(a)=b?$&Entry Value\\\hline
+        M(0,0) &0&0&0&Yes&1\\\hline
+        M(1,0)&1&0&0&No&0\\\hline
+        M(0,1)&0&1&1&No&0\\\hline
+        M(1,1)&1&1&1&Yes&1\\\hline
+    \end{tabular}
+    \caption{Finding Operator entries for $f_2(a)$}
+\label{tab:placeholder}
+\end{table}
+
+\begin{theorem}
+    For a deterministic classical function mapping the set of classical state,
+    \[f: \Sigma\mapsto \Sigma\]
+    the operator matrix, M, is defined by
+    \[M(b,a) =\begin{cases*}
+        1&if $b=f(a)$\\ 
+        0 & if  $b \ne f(a)$\\
+    \end{cases*}\]
+\end{theorem}
+\noindent We can also see that
+\[\mathrm{M\ket a } = \mathrm{\ket{f(a)}}\]
+holds true. For example, using the third function,
+\[f_3(0) = 1\]
+\[\ket0 = \begin{pmatrix}
+    1\\0
+\end{pmatrix}\]
+\[\ket{\mathrm{f_3(0)}} = \ket{1}=\begin{pmatrix}
+    0\\1
+\end{pmatrix}
+\]
+\[\mathrm{M_3\ket{0} =\begin{pmatrix}
+0&1\\
+1&0
+\end{pmatrix}\begin{pmatrix}
+    1\\0
+\end{pmatrix}}=\begin{pmatrix}
+    0\\1
+\end{pmatrix}=\ket1\]
+which is the whole point in the operator! The operator multiplied by the a basis vector for an input classical state, should always return the corresponding basis vector for the output classical state. In this case, $f_3(0)=1$ so the $\mathrm{M_3}$ operator multiplied by the `0' basis vector = the `1' basis vector.
+\subsubsection{A little more Dirac Notation...}
+Earlier, we had 
+\[\ket{a} =\begin{pmatrix}
+    1\\0
+\end{pmatrix} \]
+if the 1st entry of the basis vector corresponds to the classical state $a$. This notation is part of  broader notation called, \textbf{Dirac Notation}.  The notation
+\[\bra{a}\]
+is now introduced, read as `bra a'.  This is a \textit{row vector} as opposed to ket-a which is a \textit{column vector}.  For example, if $\Sigma =\{0,1\}$,
+\begin{align*}
+    \ket 0 = \begin{pmatrix}
+        1\\0
+    \end{pmatrix}~~~\&~~~\ket1 = \begin{pmatrix}
+        0\\1
+    \end{pmatrix}\\[9pt]
+    \bra 0= (1~~~0)~~~\&~~~\bra1 = (0~~~1)
+\end{align*}
+It should also be noted that multiplication of a row vector and column vector of equal dimensions, yields a scalar:
+\[(1~~~0)\begin{pmatrix}
+    1\\0
+\end{pmatrix} = 1\]
+\[(1~~~2~~~3)\begin{pmatrix}
+    2\\1\\-3
+\end{pmatrix}= 2+2-6=-2\]
+\[(0~~~-1~~~-9)\begin{pmatrix}
+    2\\0.5\\0
+\end{pmatrix} = -\frac{1}{2}\]
+
+\begin{remark}
+    If $a$ represents the same classical state as $b$, then $\bra{a}\ket{b}$ = 1. Otherwise, $\bra{a}\ket{b} =0$. 
+   \[ 
+        \bra{a}\ket{b} = \begin{cases*}
+            1~~~~\mathrm{if} ~~a = b\\
+            0~~~~ \mathrm{if}~~ a \ne b
+        \end{cases*}
+ \]
+\end{remark}
+However, multiplying a column vector by a row vector, results in a matrix:
+\begin{align*}
+    \begin{pmatrix}
+        1\\0\\0
+    \end{pmatrix}(0~~~1~~~0) = \begin{pmatrix}
+        0&1&0\\
+        0&0&0\\
+        0&0&0
+    \end{pmatrix}
+\end{align*}
+\[\ket{0}\bra{0} = \begin{pmatrix}
+    1\\0
+\end{pmatrix}(1~~~0)=\begin{pmatrix}
+    1&0\\
+    0&0
+\end{pmatrix}\]
+\begin{remark}
+    In general, the matrix 
+    \[\ket{a}\bra{b}\]
+    has a 1 in the $(a,b)$ entry, and zeroes in all other entries.
+\end{remark}
+This notation allows easy expression of
+\[\mathrm{M\ket{a}} = \ket{f(a)},~~~\forall a\in \Sigma\]
+in the equivalent form
+\[\mathrm{M} = \sum_{b\in\Sigma}\ket{f(b)}\bra{b}\]
+\subsubsection{Probabilistic Operations}
+\textbf{Probabilistic operations} are classical operations that may introduce randomness or uncertainty as to the outcome. \\
+\begin{remark}
+    Take note of the key word, \textit{may}; probabilistic operations aren't GUARANTEED to introduce randomness, but are just operations where there could be an element of randomness. Therefore, deterministic operations are simply a special case of probabilistic operations which do not introduce randomness.
+\end{remark}
+Like deterministic operations, probabilistic operations can be described by \textbf{\textit{stochastic operators}}.
+\begin{definition}
+    \textbf{Stochastic}: having a random probability distribution/pattern that may be analysed statistically, but may not be predicted precisely. For example, experimental data points that fit a Gaussian curve; precisely predicting the value of a single data point, such as the landing point of a dart, is not guaranteed and is left to chance. However, despite the random nature of the data, the Gaussian distribution of the data can still be analysed statistically, allowing better predictions of overall trends followed by a population or sample.  
+\end{definition}
+A stochastic operator is a matrix such that:
+\begin{itemize}
+    \item All entries are real, and non-negative
+    \item Entries of each column sum to 1\footnote{Law of total probability}
+\end{itemize}
+Every column of the matrix is a probability vector. \\
+\textbf{Example:} Here is a probabilistic operation on a bit:
+\begin{itemize}
+    \item If the state of the bit is 0, then do nothing
+    \item If the state is 1, then flip the bit with probability $1/2$
+\end{itemize}
+The corresponding stochastic operator is 
+\begin{align*}
+    \begin{pmatrix}
+        1&0.5\\1&0.5
+    \end{pmatrix}
+\end{align*}
+\subsubsection{Composing Operations}
+Composing operations refers to performing one probabilistic operation after another. If X is a bit, and $M_1...M_n$ are stochastic operators representing probabilistic operations on X, then applying $M_1$ and then $M_2$ on the initial probabilistic state vector of X, $v$, we get
+\[M_2(M_1v)\]
+Matrix  multiplication s \textit{associative}, so we can write
+\[M_2(M_1v) \equiv (M_1M_2)v\]
+Writing it this way makes more clear that the composition of operators is just a single operation, represented by the matrix product. We could call the operator $M_2M_1$, $K$, and equivalently write,
+\[M_2M_1v=Kv\]
+Note the decreasing index of the matrix; while associative, matrix multiplication \textbf{IS NOT} commutative. Hence, the order must be this way, or the action of the operation may not be as intended. 
+\subsection{Quantum States}
+\begin{definition}
+    A \textbf{quantum state} of a system is represented by a column vector whose indices are placed in correspondence with the classical states of that system.
+\end{definition}
+\begin{itemize}
+    \item Entries of a quantum state vector are complex numbers 
+    \item Also unlike classical vectors, the sum of the entries does not have to equal one; instead, the sum of absolute values squared must equal one:
+\[\begin{pmatrix}
+    a\\b\\c
+\end{pmatrix}\rightarrow |a|^2+|b|^2+|c|^2 =   1\]
+    \item The complex entries are typically called \textbf{amplitudes}: while they play a similar role to probabilities, they are \underline{not} probabilities.
+\end{itemize}
+
+We've seen the magnitude/length of a 2D vector is given by the Pythagorean expression below:
+\begin{align}
+    |\vect v| = \begin{vmatrix}
+        x\\y
+    \end{vmatrix} = \sqrt{x^2+y^2}
+\end{align}
+When doing this for a 3D or higher dimensional vector, or one whose entries may be complex, the expression still applies but is no longer really derived from Pythagorean maths. So instead, it is written in a more generalised form and called, \textbf{the Euclidean Norm}. It is denoted by `double-magnitude' lines, $\norm{\vect v}$.
+\[\boxed{~~~\mathrm{The~Euclidean ~Norm:~}\vect v = \begin{pmatrix}
+    \alpha_1\\\alpha_2\\
+    ...\\
+    \alpha_n
+\end{pmatrix}~~\Longrightarrow ~~\norm{\vect v} = \sqrt{\Sigma_{k=1}^n|\alpha_k|^2}~~~}\]
+Since, quantum state vectors have the RHS = 1, another way to describe these vectors, is that they are unit column vectors with Euclidean norms of 1. So for all quantum state vectors, 
+\[\norm{\vect v} = 1.\]
+\begin{remark}
+    Note that there are many different types of norms; for example, the sum of absolute values (not squared and no square root involved), is sometimes called the `one-norm'. For this reason,  sometimes the notation $\norm{\vect v}$ has a subscript at the end, denoting what type of norm is being referred to. For the Euclidean norm, this subscript is usually 2, so $\norm{\vect v}_2$. For these notes however, whenever this double line notation is used, it is referring to the Euclidean norm (\textit{unless otherwise specified} ).
+\end{remark}
+\begin{definition}
+    \textbf{Qubit:} (or quantum bit) is the basic unit of information for a quantum computer, as opposed to the `regular' bit which is the basic unit of information for classical computers.  
+\end{definition}
+Unlike the classical bit, a qubit can take a continuum of states between 0 and 1 inclusive, simultaneously. But for now, we just look at the 0 and 1 state. 
+\subsubsection{Examples of Quantum States:}
+\begin{itemize}
+    \item Standard basis vectors: $\ket{0}$ and $\ket{1}$ - considering the properties of a quantum state vector, these vectors both have one entry equal to 1, which is a complex number with imaginary part 0, and also have a Euclidean norm of 1. So they can also be quantum state vectors.
+    \item The \textbf{Plus \& Minus states:}
+\begin{align*}
+    \ket{+} = \frac{1}{\sqrt{2}}\ket0 +\frac{1}{\sqrt{2}}\ket1 \\[6pt]
+    \ket- = \frac{1}{\sqrt{2}}\ket0 -\frac{1}{\sqrt{2}}\ket 1
+\end{align*}
+Like the standard basis vectors, the Euclidean norm for both the plus and minus state of a qubit is 1, and they both have two $1/\sqrt{2}$ , entries -  again, these are complex numbers with imaginary part 0. 
+    \item Revisiting the suits of a deck of cards discussed in classical states, we \textit{could} have a quantum state vector of one card being
+    \[\vect v =\frac{1}{2}\ket{\mathrm{Spades}}-\frac{i}{2}\ket{\mathrm{Diamonds}}+\frac{1}{\sqrt{2}}\ket{\mathrm{Clubs}}\]
+    Remember our ordering system when this example was used for classical states: clubs, diamonds, hearts and spades. Then the entries of this quantum state vector are $1/2,~ -i/2,~0 ~~\& ~~1/\sqrt{2}$. When we take the absolute value of these - clearly complex -  entries and sum them, we see the Euclidean norm is 1, and hence, we've checked that it is in fact a quantum state vector. 
+    \begin{align*}
+        \norm{\vect v} = \left|\frac{1}{\sqrt{2}}\right|^2+\left|\frac{-i}{2}\right|^2+\left|0\right|^2+\left|\frac{1}{2}\right|^2\\
+        = \frac{1}{2}+\frac{1}{4}+0+\frac{1}{4} = 1.
+    \end{align*}
+\end{itemize}
+\subsubsection{... Back to Dirac Notation briefly...}
+$\ket{\psi}$ is often used to denote an arbitrary quantum state vector; the $\psi$ (pronounced `sigh') has no real significance, and happens to be the convention - it could easily be $\ket{v}$, but I will be using $\ket{\psi}$. The ket- is used to indicate the vector is a \textit{column} vector. For example, we could have arbitrarily,
+\[\ket{\psi} = 3-\sqrt{7} i\ket{0}+\frac{1}{5}\ket 1\]
+Like with classical state vectors, the transpose of this vector is simply the row vector. BUT, for quantum state vectors, this is \textit{NOT} $\bra{\psi}$. The corresponding row vector to ket-psi, $\bra{\psi}$ is it's \textbf{conjugate transpose}; this is the transpose, but with entries being the complex conjugates of those in $\ket{\psi}$. It is denoted with a dagger superscript: $\ket{\psi}^\dagger$. For our example above,
+\[\ket\psi ^\dagger = \bra{\psi} = 3+\sqrt{7}\bra{0}+\frac{1}{5}\bra{1}\]
+This is defined as such because, the product of quantum state vector and its conjugate transpose is always 1:
+\[\ket{\psi}\ket{\psi}^\dagger = \ket\psi\bra{\psi} = 1\]
+Analogously, we saw that if $\ket v$ is an arbitrary classical state vector, then $\ket{v} \ket{v}^T = \ket{v}\bra{v} = 1$. 
+ \subsubsection{Measuring Quantum States}
+
+
+
+
+
+
+
+\newpage
+\section{Intro to Quantum Field Theory}
+\subsection{The what and why?}
+\section{More Advanced QFT}
+\newpage
+\appendix
+\section{Qiskit Implementation:}
+While not absolutely necessary to learn in detail now, it is useful (and in the future, vital) to know how to use Qiskit,  a useful software accessible through python, and used for coding quantum-related programs and quantum computing. This appendix supplements \textit{section 2, Quantum mechanics}, explaining only the things necessary to dip into using Qiskit and python together. There is no need nor pressure to keep up with learning Qiskit and coding at the same pace as the other sections for now, but it will be needed sooner or later. Therefore, interleaving this with other content every now and then is of use.\\
+\href{https://quantum.cloud.ibm.com/docs/en/guides/install-qiskit}{Follow this link for a guide by IBM's quantum platform to setting up Qiskit.} \\\\
+If installing on a virtual minimal environment made through the computer's command shell, use the prompt 'pip install qiskit'. If using a web-browser based environment, such as JupyterLab or notebook, you will need to install it \textit{in} that environment; use the same command, pip install qiskit, but in a cell alone and run the cell. Jupyter will download the latest version of qiskit. You can then import and use the module like any other. The version of qiskit being used can be checked by running the line 'from qiskit import $\_~\_\mathrm{version\_~\_}$' followed by 'print($\_~\_\mathrm{version\_~\_}$)'. 
+
+\subsubsection*{Briefly on what Qiskit \textit{actually} is}
+Qiskit acts and looks like a python module but in reality, it is much more; it is a Quantum SDK (Software Development Kit). It is a \textit{python-based} interface, which just so happens to provide a python module to allow you to access the full SDK. Quantum computing code written on python with Qiskit can be run on quantum chips; when you write the right lines of code required to do this (more in following sections), the code is \textit{literally} sent through HTTPS requests (cloud computing) to IBM's quantum chips, most of which are based across the United States, executed physically on the chips superconducting qubits (quantum hardware), and then the output is sent back to your python session. You are essentially really using quantum-computers-lite! Code is typed on your laptop's python session, you run the code, and a real quantum chip hundreds of miles away 'wiggles' because of you -  pretty cool :)
+\subsection{Vectors and Matrices in Python}
+Using Qiskit without knowing how to use NumPy, is akin to learning how to drive by starting with a helicopter.  Hence,  before discussing Qiskit, below is a rushed intro to doing a few things with NumPy, such as calculations and representing matrices and objects. There is a lot more to NumPy than this but that can be learned as we go. \\\\
+Matrix and vector algebra can be performed using the array class from NumPy (remember to import the NumPy library).  An example of this is below; the code defines the basis vectors of real 2D space, $\i$ and $\j$. 
+\begin{jupyter}
+import numpy as np
+ 
+x_vector= np.array([1], [0]])
+y_vector = np.array([[0], [1]])
+ 
+print(x_vector  + y_vector )
+\end{jupyter}
+This creates the output:
+\begin{jupyter}
+    [[0]
+ [1]] [[1]
+ [0]]
+\end{jupyter}
+Clearly not the intended representation. This can be fixed by using $\mathrm{array\_to\_latex}$, the module $\mathrm{qiskit.visualization}$ and python's display function. 
+\begin{jupyter}
+from qiskit.visualization import array_to_latex
+
+display(array_to_latex(x_vector))
+display(array_to_latex(y_vector))
+\end{jupyter}
+Now, we get the output,
+\begin{align*}
+    \begin{bmatrix}
+        1\\0
+    \end{bmatrix}\\[8pt]
+    \begin{bmatrix}
+    0\\1
+    \end{bmatrix}
+\end{align*}
+Much nicer to look at. Display can be thought of as playing the role of print here. Arrays can also be used to define matrices. 
+\begin{jupyter}
+    identity_matrix_2 = np.array([[1,0],[0,1]])
+identity_matrix_3 = np.array([[1,0,0],[0,1,0],[0,0,1]])
+
+display(array_to_latex(identity_matrix_2))
+display(array_to_latex(identity_matrix_3))
+\end{jupyter}
+This gives the 2 x 2 and 3 x 3 identity matrices. 
+\begin{align*}
+    \begin{bmatrix}
+        1&0\\0&1
+    \end{bmatrix}\\[8pt]
+    \begin{bmatrix}
+        1&0&0\\0&1&0\\
+        0&0&1
+    \end{bmatrix}
+\end{align*}
+Matrix multiplication, as well as vector multiplication, can be carried out using the matmul function from NumPy.
+\begin{jupyter}
+matrix_a = np.array([[1,4,6],[0,9,8],[5,0,7]])
+matrix_b = np.array([[0,1,8],[0,0,0],[5,2,7]])
+
+display(array_to_latex(np.matmul(matrix_a,matrix_b)))
+\end{jupyter}
+This gives the correct result as,
+\[\begin{bmatrix}
+    30&13&50\\
+    40&16&56\\
+    35&19&89
+\end{bmatrix}\]
+\textbf{NOTE:} matrix multiplication is not commutative. As a result, take caution to ensure the order of the matrices being multiplied, is as intended in the matmul brackets.
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\section{Showing Code in LaTeX:}
+Note that isn't really super-important. But it is nice if you care about details and aesthetics. So, displaying example code in LaTeX can be done in several ways. You could create a custom environment using solely LaTeX macros, or, let overleaf  'collaborate' with the coding software directly.  The second option is the one used in this document. \\\\ To do this,  overleaf needs to be compiling the LaTeX source code with one of pdflatex, lualatex or xelatex, so that it can use the minted package. HOWEVER... for overleaf to present the sample code 'aesthetically', it needs to use a python-based program, Pygments - i.e. overleaf needs to access \textit{external} content on your laptop. This is usually automatically blocked for security reasons, and overleaf has made it particularly purposeful and difficult to override, to ensure the user really wants to do so. Overriding this security measure, requires creating another .tex file in your project. Name the file EXACTLY: latexmkrc. Once complete, copy what is in the image below into the new file. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image.png}
+\end{figure}
+\noindent These lines are what tell overleaf to allow the pdflatex, xelatex, and lualatex compilers to run external programs. Once you've done this and checked the right compiler is being used (go to settings then compiler; if not one of the aforementioned compilers, click and a drop-down menu will appear - select one of the required compilers \footnote{Recommend pdflatex: keeps document neat and the others tend to mess with image production a bit}), you can define an environment like the following:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{87654.png}
+\end{figure}
+The environment defined in the image, which is the one used in this document, looks complex but really, you can define the environment however you like! This environment specifically ensures the output looks as similar to a JupyterLab cell as possible and includes a title. But you don't \textit{have} to include a title or make it perfect. 
+An example of code output is shown below, as well as in many prior sections of this work. As well as this, below it is the latex code that produced it, as an example of how to use the environment once it's defined.
+\begin{jupyter}
+from qiskit import QuantumCircuit
+
+qc = QuantumCircuit(1)
+qc.h(0)
+qc.measure_all()
+qc.draw()
+\end{jupyter}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{asdfgh.png}
+\end{figure}
+\section{Some Important Properties of Matrices to Note:}
+\begin{enumerate}
+    \item \textbf{Order:}  The order of a matrix is one of the simplest properties of a matrix, and often the easiest to identify. Order simply refers to the size, or overall dimensionality, of the matrix. It is the number of rows and columns, respectively written as $m\times n$. A matrix with 2 rows and 3 columns is of order 3 x 2. A matrix of order 1 x 3 is a row vector, while a 3 x 1 matrix is is a column vector. Obviously, all square matrices have the same number of rows and columns, and so have order $m  \times m$.  This is important, as \textit{only} matrices with order $m_1 \times n$ and $n  \times m_2$ can be  multiplied. I.e. if the first matrix has a number of columns that is equal to the second's number of rows. E.g. multiplication between a 3 x 7 matrix and 7 x 2 matrix is possible. On the contrary, multiplication between 7 x 3 and 7 x 2 matrices is not possible.
+    \item \textbf{Determinant:} While discussed in brief in section 1.3, the determinant has a few characteristics that should be noted, as the determinant is a core part of matrix theory. The first is that the determinant only exists for \textit{square matrices.} Further to this, a matrix is only invertible (that is, an inverse exists) \textbf{iff} the determinant is non-zero. If the determinant = 0, then the matrix is said to be singular; it is not possible to invert such a matrix. As seen in the section on matrices, eigenvalues are found by solving a matrix's characteristic equation, which uses the determinant: $\det(A-\lambda I)$= 0. Therefore, we can see that the Eigenvalues are the values of $\lambda$ for which the matrix is singular. 
+    \item  \textbf{Entry notation}: The entries of a matrix are always written in the order \textit{row first, columns second}, and is usually denoted by $A(a,b)$ or $A_{a,b}$, where $a$ = the number of rows and $b$ = the number of columns. E.g. the $A_{2,5}$ entry refers to the entry of the matrix A in row 2, column 5. The convention for indexing rows and columns, is that the first of both is always the zeroth; $A_{0,1}$ and $A_{1,0}$ refers to the entry in the zeroth row, first column and in the first row (`second row') and zeroth column, respectively.  You may sometimes see the entry denoted by the lowercase letter of the matrix, $a_{1,2}$ for example.
+    \item \textbf{Span:} The span can also be referred to as the column space. Formally, the span is defined as a set; it is the set of all possible vectors that can be generated by some linear  combination of the matrix's columns. For example, consider the 3 x 3 matrix whose columns are 3D vectors, $\vect v_i$:
+\[\begin{pmatrix}
+    \vect v_1&\vect v_2 & \vect v_3
+\end{pmatrix}\]
+The span has no real notational convention, but is typically written with set notation, $\mathrm{Span\{\vect v_1, \vect v_2, \vect v_3\}}$. This is the set of all possible linear combinations of the 3 vectors. An example of a member of the span set is shown below.
+\begin{align*}
+    \exists~ \vect b \suchthat \vect b = c\vect v_1 + \vect v_2 - k\vect v_3,~~c,k \in \Rset \\[6pt]
+    \Rightarrow \vect b \in \mathrm{Span}
+\end{align*}
+However, if $\vect b$ were to be equal to $\vect v_1^2 +\vect v_3-2$, then this is \textit{not} a vector resulting from a LINEAR combination of the matrix's columns, and so it would not be included in the span.  A numerical example:
+\begin{align*}
+    \begin{pmatrix}
+        1 & 2\\3&4
+    \end{pmatrix}
+\end{align*}
+has a span of all 2D space, $\Re^2$. This is because, every 2D vector can be made via a linear combination of the two column vectors comprising the matrix. A column vector on its own, would only span the line on which it lies. The only possible linear combination is scalar multiples of it, and hence, every vector made by these linear combinations just stretch, flip / rotate the vector by $\pi$ radians, or compresses the original vector, all pointing in the same direction. Note n column vectors do not necessarily span nD space. A 3 column matrix for example, does not always span all 3D space. Consider the below matrix:
+\[\begin{pmatrix}
+    1&5&-1\\3 &2 &10\\7&23&5
+\end{pmatrix}\]
+It appears at first glance, that the span of the column vectors is 3D space. However, this matrix demonstrates why closer inspection is often necessary before declaring a span. Calling each column $v_0, v_1$ and $v_2$ in that order, further investigation reveals 
+\[v_2 = 4v_0 -v_1\]
+In the final column, each value is 4 times the corresponding entry in the zeroth column, minus the corresponding entry in the first column: 10 = 4 times 3 - 2. Therefore, the columns are not linearly independent. The zeroth column is a member of $\mathrm{Span}\{\vect v_1,\vect v_2 \}$. So the span of all 3 vectors is a subset of this.
+\[\mathrm{\mathrm{Span\{\vect v_0, \vect v_1\vect v_2\}}\subset \mathrm{Span\{\vect v_1, \vect v_2\}}}\]
+So the actual span here is $\mathrm{Span\{\vect v_1, \vect v_2\}}$. It is important to check the columns are linearly independent before determining the span, as this is not always guaranteed or obvious upon initial inspection of the matrix. 
+    \item \textbf{Rank:} The rank can be defined in many ways. In the context of transformations, the rank of a matrix is the dimension of the image of the mapping it represents. A transformation may take 3 dimensional points in xyz and map them to the 2D plane, xy. The output of the transformation is 2D, and so the rank of the matrix representing the transformation is 2. We typically say, \textit{it is a rank 2 matrix}. If the matrix squeezes space down to a 1D line, it is a rank 1 matrix. And if it preserves full 3D volume, then it is a rank 3 matrix. \\\\
+    Equivalently, the rank is the dimension of the column space (span) and the dimension of row space (span but for the row vectors, as opposed to the column vectors). So, for a 3 x 3 matrix whose column vectors are linearly independent and span 3D space, the rank is 3. If we have a 4 x 4 matrix whose row vectors are all linearly \textit{dependent}; since no two rows have a linear independence between them, the span of the row vectors is the span of any one of them, individually, which is the same 1D line. Although the vectors on this line are 4 dimensional, they all have non-zero entries in ONLY the dimension of the line; the matrix transformation projects 4D space onto 1D space. So the matrix is rank 1. 
+    \item \textbf{Basis:} While not explicitly unique to the matrix discussion, it is useful to briefly point out what may already be known, but is very important. \textbf{A basis refers to the set of vectors spanning a space.} For the xy plane, the basis is clearly $B = \{\i, \j\}$. But there are numerous other choices. The $\i$ and $\j$ vectors form what is called the \textit{normal basis} of 2D space, which is just a special case of a basis. The 2D space is spanned by any 2 linearly independent vectors. The only requirement is that they are non-zero (and again, linearly independent). If it happens to be the case that these two vectors are normalised (perpendicular), like $\i$ and $\j$, then this is just another set of basis vectors for the space that is normalised, hence, normal basis. Consider the example matrix from the span explanation:
+    \[\begin{pmatrix}
+    1&5&-1\\3 &2 &10\\7&23&5
+    \end{pmatrix}\]
+    The span was ultimately $\{\vect v_1, \vect v_2\}$, due to $\vect v_0$'s linear dependence on these two vectors. The span is a subspace of $\Re^3$, real 3 dimensional space. Call this column space, $\Re'$. One choice for basis vectors for $\Re'$, is the two vectors $\vect v_1$ and $\vect v_2$. But any two linearly independent non-zero vectors in this space can also be chosen, as linear combinations of these span the entirety of the same space. Obtaining a normal basis for $\Re'$, requires choosing any two normal vectors in the space. 
+    \item \textbf{Kernel:} 
+    \item \textbf{Nullity:}
+    \item \textbf{Spectrum:}
+    \item \textbf{Trace:}
+\end{enumerate}
+\subsection{A couple Theorems:}
+Two key matrix theorems are outlined below:
+\begin{theorem}
+    \underline{Rank-Nullity Theorem:}
+\end{theorem}
+\begin{theorem}
+    \underline{Spectral Theorem:}
+\end{theorem}
+
+
+
+
+\newpage
+\addcontentsline{toc}{section}{References}
+\printbibliography
+\end{document}
