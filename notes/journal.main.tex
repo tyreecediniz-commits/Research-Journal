@@ -975,86 +975,12 @@ Analogously, we saw that if $\ket v$ is an arbitrary classical state vector, the
 \newpage
 \appendix
 \section{Qiskit Implementation:}
-While not absolutely necessary to learn in detail now, it is useful (and in the future, vital) to know how to use Qiskit,  a useful software accessible through python, and used for coding quantum-related programs and quantum computing. This appendix supplements \textit{section 2, Quantum mechanics}, explaining only the things necessary to dip into using Qiskit and python together. There is no need nor pressure to keep up with learning Qiskit and coding at the same pace as the other sections for now, but it will be needed sooner or later. Therefore, interleaving this with other content every now and then is of use.\\
+While not absolutely necessary to learn in detail now, it is useful (and in the future, vital) to know how to use Qiskit,  a useful software accessible through python, and used for coding quantum-related programs and quantum computing. There is no need nor pressure to keep up with learning Qiskit and coding at the same pace as the other sections for now, but it will be needed sooner or later. Therefore, interleaving this with other content every now and then is of use.\\
 \href{https://quantum.cloud.ibm.com/docs/en/guides/install-qiskit}{Follow this link for a guide by IBM's quantum platform to setting up Qiskit.} \\\\
 If installing on a virtual minimal environment made through the computer's command shell, use the prompt 'pip install qiskit'. If using a web-browser based environment, such as JupyterLab or notebook, you will need to install it \textit{in} that environment; use the same command, pip install qiskit, but in a cell alone and run the cell. Jupyter will download the latest version of qiskit. You can then import and use the module like any other. The version of qiskit being used can be checked by running the line 'from qiskit import $\_~\_\mathrm{version\_~\_}$' followed by 'print($\_~\_\mathrm{version\_~\_}$)'. 
 
 \subsubsection*{Briefly on what Qiskit \textit{actually} is}
 Qiskit acts and looks like a python module but in reality, it is much more; it is a Quantum SDK (Software Development Kit). It is a \textit{python-based} interface, which just so happens to provide a python module to allow you to access the full SDK. Quantum computing code written on python with Qiskit can be run on quantum chips; when you write the right lines of code required to do this (more in following sections), the code is \textit{literally} sent through HTTPS requests (cloud computing) to IBM's quantum chips, most of which are based across the United States, executed physically on the chips superconducting qubits (quantum hardware), and then the output is sent back to your python session. You are essentially really using quantum-computers-lite! Code is typed on your laptop's python session, you run the code, and a real quantum chip hundreds of miles away 'wiggles' because of you -  pretty cool :)
-\subsection{Vectors and Matrices in Python}
-Using Qiskit without knowing how to use NumPy, is akin to learning how to drive by starting with a helicopter.  Hence,  before discussing Qiskit, below is a rushed intro to doing a few things with NumPy, such as calculations and representing matrices and objects. There is a lot more to NumPy than this but that can be learned as we go. \\\\
-Matrix and vector algebra can be performed using the array class from NumPy (remember to import the NumPy library).  An example of this is below; the code defines the basis vectors of real 2D space, $\i$ and $\j$. 
-\begin{jupyter}
-import numpy as np
- 
-x_vector= np.array([1], [0]])
-y_vector = np.array([[0], [1]])
- 
-print(x_vector  + y_vector )
-\end{jupyter}
-This creates the output:
-\begin{jupyter}
-    [[0]
- [1]] [[1]
- [0]]
-\end{jupyter}
-Clearly not the intended representation. This can be fixed by using $\mathrm{array\_to\_latex}$, the module $\mathrm{qiskit.visualization}$ and python's display function. 
-\begin{jupyter}
-from qiskit.visualization import array_to_latex
-
-display(array_to_latex(x_vector))
-display(array_to_latex(y_vector))
-\end{jupyter}
-Now, we get the output,
-\begin{align*}
-    \begin{bmatrix}
-        1\\0
-    \end{bmatrix}\\[8pt]
-    \begin{bmatrix}
-    0\\1
-    \end{bmatrix}
-\end{align*}
-Much nicer to look at. Display can be thought of as playing the role of print here. Arrays can also be used to define matrices. 
-\begin{jupyter}
-    identity_matrix_2 = np.array([[1,0],[0,1]])
-identity_matrix_3 = np.array([[1,0,0],[0,1,0],[0,0,1]])
-
-display(array_to_latex(identity_matrix_2))
-display(array_to_latex(identity_matrix_3))
-\end{jupyter}
-This gives the 2 x 2 and 3 x 3 identity matrices. 
-\begin{align*}
-    \begin{bmatrix}
-        1&0\\0&1
-    \end{bmatrix}\\[8pt]
-    \begin{bmatrix}
-        1&0&0\\0&1&0\\
-        0&0&1
-    \end{bmatrix}
-\end{align*}
-Matrix multiplication, as well as vector multiplication, can be carried out using the matmul function from NumPy.
-\begin{jupyter}
-matrix_a = np.array([[1,4,6],[0,9,8],[5,0,7]])
-matrix_b = np.array([[0,1,8],[0,0,0],[5,2,7]])
-
-display(array_to_latex(np.matmul(matrix_a,matrix_b)))
-\end{jupyter}
-This gives the correct result as,
-\[\begin{bmatrix}
-    30&13&50\\
-    40&16&56\\
-    35&19&89
-\end{bmatrix}\]
-\textbf{NOTE:} matrix multiplication is not commutative. As a result, take caution to ensure the order of the matrices being multiplied, is as intended in the matmul brackets.
-
-
-
-
-
-
-
-
-
 
 
 \newpage
